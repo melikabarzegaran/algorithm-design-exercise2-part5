@@ -84,12 +84,45 @@ public class Distribution
             {
                 System.out.println("the file '" + file.getName() + "': ");
                 read(file);
+
+                Double mean = getMean();
+                Double variance = getVariance(mean);
+                Double standardDeviation = getStandardDeviation(variance);
+
+                System.out.format("mean = %.2f\nvariance = %.2f\nstandard deviation = %.2f\n", mean, variance,
+                        standardDeviation);
+                System.out.println();
             }
             else
             {
                 System.err.println("error: the file '" + file.getName() + "' doesn't exist or is a directory.");
             }
         }
+    }
+
+    Double getMean()
+    {
+        Double mean = 0.0;
+        for(Integer value : values)
+        {
+            mean += new Double(value) / new Double(values.length);
+        }
+        return mean;
+    }
+
+    Double getVariance(Double mean)
+    {
+        Double variance = 0.0;
+        for(Integer value : values)
+        {
+            variance += Math.pow(mean - value, 2) / values.length;
+        }
+        return variance;
+    }
+
+    Double getStandardDeviation(Double variance)
+    {
+        return Math.sqrt(variance);
     }
 
     private void compute()
